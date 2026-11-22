@@ -1,6 +1,21 @@
 # Salonko
 
+[![CI/CD](https://github.com/milja02/RIRIS-projekt/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/milja02/RIRIS-projekt/actions/workflows/ci-cd.yml)
+
 Salonko je spletna aplikacija za rezervacijo terminov v frizerskem salonu. Stranke termine rezervirajo, prekličejo in prestavijo prek spleta kadar koli, sistem pa izračuna proste začetne ure iz delovnega časa posameznega frizerja, storitev, ki jih opravlja, trajanja izbrane storitve in obstoječih terminov, zato se termini nikoli ne prekrivajo. Frizerji vidijo svoj dnevni urnik in beležijo, ali je stranka prišla, administrator pa upravlja storitve, frizerje, delovni čas in stranke.
+
+## Nameščena aplikacija
+
+https://salonko.netlify.app
+
+## CI/CD cevovod
+
+Cevovod je opisan v datoteki .github/workflows/ci-cd.yml in se zažene ob vsakem pull requestu v vejo main in ob vsakem pushu na main.
+
+- **lint** preveri kodo zaledja in odjemalca z ESLint. Če ESLint najde napako, job pade.
+- **build** zgradi odjemalca z Vite in zaledje z esbuild v eno datoteko index.cjs ter oba rezultata shrani kot artefakta. Odvisnosti se predpomnijo glede na package-lock.json.
+- **test** zažene teste enot z Vitest za zaledje in odjemalca ter poročilo o pokritosti kode shrani kot artefakt.
+- **deploy** se izvede samo ob pushu na main in samo, če so lint, build in test uspešni. Zaledje namesti na Azure App Service, odjemalca pa na Netlify, oboje iz artefaktov joba build. Netlify zahteve na /api posreduje zaledju, katerega URL je nastavljen v spremenljivki okolja BACKEND_URL. Podatkovna baza teče v MongoDB Atlas.
 
 ## Tehnologije
 
